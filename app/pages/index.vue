@@ -64,7 +64,7 @@ const { data = [] } = await useFetch<ReleaseInfo[]>('/api/releases')
         <div flex="~ col items-end" lt-sm="flex-row gap-2" text-end>
           <a
             font-mono
-            :href="`https://github.com/${item.repo}/tags/v${item.version}`" target="_blank"
+            :href="`https://github.com/${item.repo}/releases/tag/v${item.version}`" target="_blank"
           >
 
             v{{ item.version }}
