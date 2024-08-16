@@ -3,13 +3,17 @@ import type { ReleaseInfo } from '../../types'
 
 const LIMIT = 100
 
+const ignoreRepos = [
+  'Ovyerus/shiki', // Not sure why the commit appears from a fork, filter it out temporarily
+]
+
 export default defineLazyEventHandler(() => {
   const config = useRuntimeConfig()
   const octokit = new Octokit({
     auth: config.githubToken,
   })
 
-  const infos: ReleaseInfo[] = []
+  let infos: ReleaseInfo[] = []
 
   async function getDataAtPage(page = 1): Promise<ReleaseInfo[]> {
     const { data } = await octokit.request('GET /users/{username}/events', {
@@ -19,22 +23,24 @@ export default defineLazyEventHandler(() => {
     })
 
     return data
-      .filter(item => item.type === 'PushEvent' && item.public)
-      .map((item): ReleaseInfo => {
+      .filter(item => item.type === 'PushEvent' && item.public && !ignoreRepos.includes(item.repo.name))
+      .flatMap((item): ReleaseInfo => {
         const payload: any = item.payload || {}
-        const title = (payload.commits?.[0]?.message || '').split('\n')[0]
-        const commit = payload.commits?.[0]?.url || ''
-        const version = title.match(/v?(\d+\.\d+\.\d+(?:-[\w.]+)?)(?:\s|$)/)?.[1] || ''
-        return {
-          id: item.id,
-          type: item.type!,
-          repo: item.repo.name,
-          title,
-          commit,
-          created_at: item.created_at!,
-          version,
-          // payload: item.payload,
-        }
+        return (payload.commits || []).map((commit: any) => {
+          const title = (commit?.message || '').split('\n')[0]
+          const version = title.match(/v?(\d+\.\d+\.\d+(?:-[\w.]+)?)(?:\s|$)/)?.[1] || ''
+          return {
+            id: item.id,
+            type: item.type!,
+            repo: item.repo.name,
+            title,
+            sha: commit?.sha || '',
+            commit: `https://github.com/${item.repo.name}/commit/${commit?.sha}`,
+            created_at: item.created_at!,
+            version,
+            // payload: item.payload,
+          }
+        })
       })
       .filter(item => item.title.includes('release') && item.version)
   }
@@ -63,7 +69,18 @@ export default defineLazyEventHandler(() => {
       }
     }
 
-    infos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    // Sort from oldest to newest (will be reversed later)
+    infos.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+
+    // Filter out continuse releases, keep only the latest one
+    infos = infos.filter((info, index) => {
+      const next = infos[index + 1]
+      if (next && info.repo === next.repo)
+        return false
+      return true
+    })
+
+    infos.reverse()
 
     if (infos.length > LIMIT)
       infos.slice(0, LIMIT)
