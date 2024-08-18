@@ -19,7 +19,7 @@ const { data = [] } = await useFetch<ReleaseInfo[]>('/api/releases')
           Anthony Fu's recent releases commits on GitHub
         </a>
         <a href="/feed.xml" target="_blank" title="RSS Feed">
-          <div i-ph-rss-simple-duotone />
+          <span i-ph-rss-simple-duotone flex />
         </a>
       </p>
 
