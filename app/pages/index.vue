@@ -14,9 +14,12 @@ const { data = [] } = await useFetch<ReleaseInfo[]>('/api/releases')
         </a>
         is <span animate-pulse>Releasing...</span>
       </h1>
-      <p mt1 text-center op75>
+      <p mt1 flex items-center justify-center gap-1 op75>
         <a href="https://github.com/antfu" target="_blank">
           Anthony Fu's recent releases commits on GitHub
+        </a>
+        <a href="/feed.xml" target="_blank" title="RSS Feed">
+          <div i-ph-rss-simple-duotone />
         </a>
       </p>
 
