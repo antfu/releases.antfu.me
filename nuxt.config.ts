@@ -34,6 +34,7 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', href: '/favicon.png' },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'alternate', type: 'application/rss+xml', title: 'Anthony Fu\'s recent releases', href: '/feed.xml' },
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { formatTimeAgo } from '@vueuse/core'
+import { logoOverrides } from '~~/shared/constants'
 import type { ReleaseInfo } from '~~/types'
 
 const props = defineProps<{
@@ -14,11 +15,6 @@ const subimages = [
   [/^eslint-/, 'i-logos-eslint'],
   [/^vscode-/, 'i-logos-visual-studio-code'],
 ] as const
-
-const logoOverrides = {
-  'antfu/vscode-array-index-inlay': 'https://github.com/antfu/vscode-array-index-inlay/raw/main/res/icon.png?raw=true',
-  'antfu/vscode-smart-clicks': 'https://raw.githubusercontent.com/antfu/vscode-smart-clicks/main/res/icon.png',
-} as Record<string, string>
 
 const subImage = computed(() => {
   if (!props.item.repo.startsWith(`${username}/`)) {
