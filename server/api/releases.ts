@@ -6,8 +6,8 @@ const KV_KEY = 'records'
 
 export interface ReturnData {
   infos: ReleaseInfo[]
-  lastUpdated: string
-  lastFetched: string
+  lastUpdated: number
+  lastFetched: number
 }
 
 export default defineLazyEventHandler(async () => {
@@ -18,6 +18,14 @@ export default defineLazyEventHandler(async () => {
 
   let infos: ReleaseInfo[] = await hubKV().get(KV_KEY) || []
 
+  // Migrate old data
+  infos.forEach((item) => {
+    if (typeof item.created_at === 'string')
+      item.created_at = +new Date(item.created_at)
+  })
+
+  let lastUpdated = infos[0]?.created_at || 0
+
   async function getDataAtPage(page = 1): Promise<ReleaseInfo[]> {
     const { data } = await octokit.request('GET /users/{username}/events', {
       username: config.public.login,
@@ -26,6 +34,16 @@ export default defineLazyEventHandler(async () => {
     })
 
     return data
+      .map((i) => {
+        const createAt = +new Date(i.created_at || 0)
+        // Record the latest update time
+        if (lastUpdated < createAt)
+          lastUpdated = createAt
+        return {
+          ...i,
+          created_at: createAt,
+        }
+      })
       .filter(item => item.type === 'PushEvent' && item.public)
       .flatMap((item): ReleaseInfo => {
         const payload: any = item.payload || {}
@@ -40,7 +58,7 @@ export default defineLazyEventHandler(async () => {
             title,
             sha: commit?.sha || '',
             commit: `https://github.com/${item.repo.name}/commit/${commit?.sha}`,
-            created_at: item.created_at!,
+            created_at: item.created_at,
             version,
             // payload: item.payload,
           }
@@ -76,7 +94,7 @@ export default defineLazyEventHandler(async () => {
     }
 
     // Sort from oldest to newest (will be reversed later)
-    infos.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+    infos.sort((a, b) => a.created_at - b.created_at)
 
     // Filter out continuse releases, keep only the latest one
     infos = infos.filter((info, index) => {
@@ -91,14 +109,12 @@ export default defineLazyEventHandler(async () => {
     if (infos.length > LIMIT)
       infos.slice(0, LIMIT)
 
-    const lastUpdated = infos[0].created_at
-
     hubKV().set(KV_KEY, infos)
 
     return {
       infos,
       lastUpdated,
-      lastFetched: lastFetched.toISOString(),
+      lastFetched: +lastFetched,
     }
   }, {
     maxAge: 60 * 5 /* 5 minutes */,

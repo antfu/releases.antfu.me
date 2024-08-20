@@ -4,7 +4,7 @@ export interface ReleaseInfo {
   repo: string
   title: string
   commit: string
-  created_at: string
+  created_at: number
   version: string
   isOrg: boolean
   payload?: any
