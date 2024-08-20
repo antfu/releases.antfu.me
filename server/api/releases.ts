@@ -16,6 +16,8 @@ export default defineLazyEventHandler(async () => {
     auth: config.githubToken,
   })
 
+  // The GitHub `/events` API only returns the latest 300 events (3 pages)
+  // Thus here we use KV to store the previous data to persist the history for a longer time
   let infos: ReleaseInfo[] = await hubKV().get(KV_KEY) || []
 
   // Migrate old data
@@ -35,16 +37,19 @@ export default defineLazyEventHandler(async () => {
 
     return data
       .map((i) => {
-        const createAt = +new Date(i.created_at || 0)
+        // Normalize the date to number
+        const created_at = +new Date(i.created_at || 0)
         // Record the latest update time
-        if (lastUpdated < createAt)
-          lastUpdated = createAt
+        if (lastUpdated < created_at)
+          lastUpdated = created_at
         return {
           ...i,
-          created_at: createAt,
+          created_at,
         }
       })
+      // For releases, we only care about the push events
       .filter(item => item.type === 'PushEvent' && item.public)
+      // Normalize the the releases. An even can have multiple commits, we flatten them
       .flatMap((item): ReleaseInfo => {
         const payload: any = item.payload || {}
         return (payload.commits || []).map((commit: any) => {
@@ -109,6 +114,7 @@ export default defineLazyEventHandler(async () => {
     if (infos.length > LIMIT)
       infos.slice(0, LIMIT)
 
+    // Save back to KV
     hubKV().set(KV_KEY, infos)
 
     return {
