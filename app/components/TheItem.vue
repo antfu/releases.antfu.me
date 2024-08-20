@@ -39,7 +39,7 @@ const subImage = computed(() => {
         :src="logoOverrides[item.repo] || `https://github.com/${item.repo.split('/')[0]}.png`"
         h-12 w-12 :alt="item.repo"
         border="~ gray/5" bg-gray:5
-        :class="item.repo.startsWith(`${config.public.login}/`) && !logoOverrides[props.item.repo] ? 'rounded-full' : 'rounded'"
+        :class="item.isOrg === false && !logoOverrides[props.item.repo] ? 'rounded-full' : 'rounded'"
       >
 
       <div

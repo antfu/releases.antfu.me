@@ -6,5 +6,6 @@ export interface ReleaseInfo {
   commit: string
   created_at: string
   version: string
+  isOrg: boolean
   payload?: any
 }

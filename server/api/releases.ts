@@ -4,10 +4,6 @@ import type { ReleaseInfo } from '../../types'
 const LIMIT = 200
 const KV_KEY = 'records'
 
-const ignoreRepos = [
-  'Ovyerus/shiki', // Not sure why the commit appears from a fork, filter it out temporarily
-]
-
 export default defineLazyEventHandler(async () => {
   const config = useRuntimeConfig()
   const octokit = new Octokit({
@@ -24,7 +20,7 @@ export default defineLazyEventHandler(async () => {
     })
 
     return data
-      .filter(item => item.type === 'PushEvent' && item.public && !ignoreRepos.includes(item.repo.name))
+      .filter(item => item.type === 'PushEvent' && item.public)
       .flatMap((item): ReleaseInfo => {
         const payload: any = item.payload || {}
         return (payload.commits || []).map((commit: any) => {
@@ -34,6 +30,7 @@ export default defineLazyEventHandler(async () => {
             id: item.id,
             type: item.type!,
             repo: item.repo.name,
+            isOrg: item.org !== undefined,
             title,
             sha: commit?.sha || '',
             commit: `https://github.com/${item.repo.name}/commit/${commit?.sha}`,

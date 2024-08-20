@@ -11,9 +11,9 @@ const config = useRuntimeConfig()
 <template>
   <div flex="~ col gap-8" mxa max-w-180 p10 font-sans lt-sm="px6">
     <div flex="~ col gap-4">
-      <h1 flex="~ gap-2 wrap justify-center items-center">
+      <h1 flex="~ gap-2 col justify-center items-center">
         <a :href="`https://github.com/${config.public.login}`" target="_blank">
-          <img :src="`https://github.com/${config.public.login}.png`" mr1 w-12 rounded-full>
+          <img :src="`https://github.com/${config.public.login}.png`" mr1 w-18 rounded-full shadow>
         </a>
         <div flex="~ col">
           <div text-3xl>
