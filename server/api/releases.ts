@@ -73,7 +73,7 @@ export default defineLazyEventHandler(async () => {
   }
 
   return defineCachedEventHandler(async () => {
-    const lastFetched = new Date()
+    const lastFetched = +new Date()
 
     let goNextPage = true
     for (let page = 1; page <= 3; page++) {
@@ -120,7 +120,7 @@ export default defineLazyEventHandler(async () => {
     return {
       infos,
       lastUpdated,
-      lastFetched: +lastFetched,
+      lastFetched,
     }
   }, {
     maxAge: 60 * 5 /* 5 minutes */,
