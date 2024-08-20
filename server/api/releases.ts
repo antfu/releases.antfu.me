@@ -17,7 +17,7 @@ export default defineLazyEventHandler(() => {
 
   async function getDataAtPage(page = 1): Promise<ReleaseInfo[]> {
     const { data } = await octokit.request('GET /users/{username}/events', {
-      username: config.githubLogin,
+      username: config.public.login,
       per_page: 100,
       page,
     })

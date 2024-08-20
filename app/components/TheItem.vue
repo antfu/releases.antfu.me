@@ -1,30 +1,23 @@
 <script setup lang="ts">
 import { formatTimeAgo } from '@vueuse/core'
-import { logoOverrides } from '~~/shared/constants'
+import { logoOverrides, subLogosMatch } from '~~/shared/constants'
 import type { ReleaseInfo } from '~~/types'
 
 const props = defineProps<{
   item: ReleaseInfo
 }>()
 
-const username = 'antfu'
-
-const subimages = [
-  [/^nuxt-/, 'i-logos-nuxt-icon'],
-  [/^vite-/, 'i-logos-vitejs'],
-  [/^eslint-/, 'i-logos-eslint'],
-  [/^vscode-/, 'i-logos-visual-studio-code'],
-] as const
+const config = useRuntimeConfig()
 
 const subImage = computed(() => {
-  if (!props.item.repo.startsWith(`${username}/`)) {
+  if (!props.item.repo.startsWith(`${config.public.login}/`)) {
     return ''
   }
   if (logoOverrides[props.item.repo]) {
     return ''
   }
   const name = props.item.repo.split('/')[1]!
-  for (const [re, img] of subimages) {
+  for (const [re, img] of subLogosMatch) {
     if (re.test(name)) {
       return img
     }
@@ -46,7 +39,7 @@ const subImage = computed(() => {
         :src="logoOverrides[item.repo] || `https://github.com/${item.repo.split('/')[0]}.png`"
         h-12 w-12 :alt="item.repo"
         border="~ gray/5" bg-gray:5
-        :class="item.repo.startsWith(`${username}/`) && !logoOverrides[props.item.repo] ? 'rounded-full' : 'rounded'"
+        :class="item.repo.startsWith(`${config.public.login}/`) && !logoOverrides[props.item.repo] ? 'rounded-full' : 'rounded'"
       >
 
       <div

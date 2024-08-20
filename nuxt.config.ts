@@ -1,11 +1,22 @@
 import process from 'node:process'
 
+const name = process.env.GITHUB_NAME || 'Anthony Fu'
+const login = process.env.GITHUB_LOGIN || 'antfu'
+
 export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@nuxt/eslint',
   ],
+
+  runtimeConfig: {
+    githubToken: process.env.GITHUB_TOKEN,
+    public: {
+      name,
+      login,
+    },
+  },
 
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
@@ -38,14 +49,14 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Anthony Fu\'s recent releases' },
+        { name: 'description', content: `${name}'s recent releases` },
         { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
         { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222' },
         { property: 'og:image', content: 'https://releases.antfu.me/og.png' },
-        { property: 'og:image:alt', content: 'Anthony Fu is Releasing...' },
+        { property: 'og:image:alt', content: `${name} is Releasing...` },
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:image', content: 'https://releases.antfu.me/og.png' },
-        { name: 'twitter:image:alt', content: 'Anthony Fu is Releasing...' },
+        { name: 'twitter:image:alt', content: `${name} is Releasing...` },
       ],
     },
   },
@@ -58,11 +69,6 @@ export default defineNuxtConfig({
     config: {
       standalone: false,
     },
-  },
-
-  runtimeConfig: {
-    githubToken: process.env.GITHUB_TOKEN,
-    githubLogin: process.env.GITHUB_LOGIN,
   },
 
   future: {
