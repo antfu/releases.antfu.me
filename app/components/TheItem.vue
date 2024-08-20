@@ -74,23 +74,23 @@ const subImage = computed(() => {
             flex="~ col wrap"
             :href="`https://github.com/${item.repo}`" target="_blank"
           >
-            <div op50>{{ item.repo.split('/')[0] }}<span op75>/</span></div>
-            <div mt--0.5 text-1.4rem>{{ item.repo.split('/')[1] }}</div>
+            <div text-sm op50>{{ item.repo.split('/')[0] }}<span op75>/</span></div>
+            <div mt--0.5 text-lg>{{ item.repo.split('/')[1] }}</div>
           </a>
         </div>
-        <a :href="item.commit" target="_blank" flex="~ gap-0.5 items-center" ml--1 op50 lt-sm="hidden">
+        <a :href="item.commit" target="_blank" flex="~ gap-0.5 items-center" ml--1 text-sm op50 lt-sm="hidden">
           <div i-ph-git-commit-duotone rotate-90 />
           {{ item.title }}
         </a>
       </div>
       <div flex="~ col items-end" lt-sm="flex-row gap-2" text-end>
         <a
-          text-1.1rem font-mono
+          font-mono
           :href="`https://github.com/${item.repo}/releases/tag/v${item.version}`" target="_blank"
         >
           v{{ item.version }}
         </a>
-        <time op50 :datatime="item.created_at">{{ formatTimeAgo(new Date(item.created_at)) }}</time>
+        <time text-sm op50 :datatime="item.created_at">{{ formatTimeAgo(new Date(item.created_at)) }}</time>
       </div>
     </div>
   </div>

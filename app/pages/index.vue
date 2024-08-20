@@ -60,15 +60,17 @@ const config = useRuntimeConfig()
     <div p2 pt8>
       <hr ma w-20 op25>
     </div>
-    <div>
-      <div v-if="data?.lastUpdated" text-center op50>
-        Last updated:
+    <div text-center op50>
+      <div v-if="data?.lastUpdated" flex="~ gap-1 wrap justify-center">
+        <span op50>Last activity:</span>
         <time :datetime="data.lastUpdated">{{ formatTimeAgo(new Date(data.lastUpdated)) }}</time>
-        <br>
-        <span op50>
-          GitHub API is not always realtime, it might take a couple hours to update.
-        </span>
+        <span mx2 op50>|</span>
+        <span op50>Last fetched:</span>
+        <time :datetime="data.lastFetched">{{ formatTimeAgo(new Date(data.lastFetched)) }}</time>
       </div>
+      <span op50>
+        GitHub API is not always realtime, it might take a couple hours to update.
+      </span>
     </div>
   </div>
 </template>
