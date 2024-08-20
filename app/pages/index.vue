@@ -63,10 +63,10 @@ const config = useRuntimeConfig()
     <div text-center op50>
       <div v-if="data?.lastUpdated" flex="~ gap-1 wrap justify-center">
         <span op50>Last activity:</span>
-        <time :datetime="data.lastUpdated">{{ formatTimeAgo(new Date(data.lastUpdated)) }}</time>
+        <time :datetime="new Date(data.lastUpdated).toString()">{{ formatTimeAgo(new Date(data.lastUpdated)) }}</time>
         <span mx2 op50>|</span>
         <span op50>Last fetched:</span>
-        <time :datetime="data.lastFetched">{{ formatTimeAgo(new Date(data.lastFetched)) }}</time>
+        <time :datetime="new Date(data.lastFetched).toString()">{{ formatTimeAgo(new Date(data.lastFetched)) }}</time>
       </div>
       <span op50>
         GitHub API is not always realtime, it might take a couple hours to update.

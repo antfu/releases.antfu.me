@@ -90,7 +90,7 @@ const subImage = computed(() => {
         >
           v{{ item.version }}
         </a>
-        <time text-sm op50 :datatime="item.created_at">{{ formatTimeAgo(new Date(item.created_at)) }}</time>
+        <time text-sm op50 :datatime="new Date(item.created_at).toString()">{{ formatTimeAgo(new Date(item.created_at)) }}</time>
       </div>
     </div>
   </div>

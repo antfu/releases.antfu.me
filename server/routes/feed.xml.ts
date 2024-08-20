@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
   const releaseList = await $fetch('/api/releases')
 
-  for (const item of releaseList) {
+  for (const item of releaseList.infos) {
     feed.addItem({
       id: item.id,
       link: `https://github.com/${item.repo}/releases/tag/v${item.version}`,
