@@ -4,6 +4,12 @@ import type { ReleaseInfo } from '../../types'
 const LIMIT = 200
 const KV_KEY = 'records'
 
+export interface ReturnData {
+  infos: ReleaseInfo[]
+  lastUpdated: string
+  lastFetched: string
+}
+
 export default defineLazyEventHandler(async () => {
   const config = useRuntimeConfig()
   const octokit = new Octokit({
@@ -44,6 +50,8 @@ export default defineLazyEventHandler(async () => {
   }
 
   return defineCachedEventHandler(async () => {
+    const lastFetched = new Date()
+
     let goNextPage = true
     for (let page = 1; page <= 3; page++) {
       if (!goNextPage)
@@ -83,9 +91,15 @@ export default defineLazyEventHandler(async () => {
     if (infos.length > LIMIT)
       infos.slice(0, LIMIT)
 
+    const lastUpdated = infos[0].created_at
+
     hubKV().set(KV_KEY, infos)
 
-    return infos
+    return {
+      infos,
+      lastUpdated,
+      lastFetched: lastFetched.toISOString(),
+    }
   }, {
     maxAge: 60 * 5 /* 5 minutes */,
     swr: true,

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import type { ReleaseInfo } from '../../types'
+import { formatTimeAgo } from '@vueuse/core'
+import type { ReturnData } from '~~/server/api/releases'
 
 const isDark = useDark()
 
-const { data = [] } = await useFetch<ReleaseInfo[]>('/api/releases')
+const {
+  data,
+} = await useFetch<ReturnData>('/api/releases')
 
 const config = useRuntimeConfig()
 </script>
@@ -13,7 +16,7 @@ const config = useRuntimeConfig()
     <div flex="~ col gap-4">
       <h1 flex="~ gap-2 col justify-center items-center">
         <a :href="`https://github.com/${config.public.login}`" target="_blank">
-          <img :src="`https://github.com/${config.public.login}.png`" mr1 w-18 rounded-full shadow>
+          <img :src="`https://github.com/${config.public.login}.png`" mr1 h-18 w-18 rounded-full shadow>
         </a>
         <div flex="~ col">
           <div text-3xl>
@@ -48,10 +51,24 @@ const config = useRuntimeConfig()
     </div>
 
     <TheItem
-      v-for="item, idx of data"
+      v-for="item, idx of data?.infos"
       :key="item.id"
       :item="item"
-      :prev="data?.[idx - 1]"
+      :prev="data?.infos?.[idx - 1]"
     />
+
+    <div p2 pt8>
+      <hr ma w-20 op25>
+    </div>
+    <div>
+      <div v-if="data?.lastUpdated" text-center op50>
+        Last updated:
+        <time :datetime="data.lastUpdated">{{ formatTimeAgo(new Date(data.lastUpdated)) }}</time>
+        <br>
+        <span op50>
+          GitHub API is not always realtime, it might take a couple hours to update.
+        </span>
+      </div>
+    </div>
   </div>
 </template>
