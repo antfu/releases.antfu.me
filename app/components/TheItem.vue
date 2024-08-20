@@ -5,7 +5,17 @@ import type { ReleaseInfo } from '~~/types'
 
 const props = defineProps<{
   item: ReleaseInfo
+  prev?: ReleaseInfo
 }>()
+
+const timeDiffHours = computed(() => {
+  if (!props.prev) {
+    return 0
+  }
+  const diff = Math.abs(new Date(props.prev.created_at).getTime() - new Date(props.item.created_at).getTime())
+  const hours = diff / 1000 / 60 / 60
+  return hours
+})
 
 const config = useRuntimeConfig()
 
@@ -30,6 +40,7 @@ const subImage = computed(() => {
   <div
     flex="~ gap-4 items-center"
     lt-sm="gap-4"
+    :class="timeDiffHours > 14 ? 'mt-8' : ''"
   >
     <a
       :href="`https://github.com/${item.repo}`" target="_blank"

@@ -48,9 +48,10 @@ const config = useRuntimeConfig()
     </div>
 
     <TheItem
-      v-for="item of data"
+      v-for="item, idx of data"
       :key="item.id"
       :item="item"
+      :prev="data?.[idx - 1]"
     />
   </div>
 </template>
