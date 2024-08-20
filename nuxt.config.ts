@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@nuxt/eslint',
+    '@nuxthub/core',
   ],
 
   runtimeConfig: {
@@ -18,10 +19,11 @@ export default defineNuxtConfig({
     },
   },
 
+  hub: {
+    kv: true,
+  },
+
   experimental: {
-    // when using generate, payload js assets included in sw precache manifest
-    // but missing on offline, disabling extraction it until fixed
-    payloadExtraction: false,
     renderJsonPayloads: true,
     typedPages: true,
   },
@@ -30,22 +32,14 @@ export default defineNuxtConfig({
     '@unocss/reset/tailwind.css',
   ],
 
-  nitro: {
-    esbuild: {
-      options: {
-        target: 'esnext',
-      },
-    },
-  },
-
   app: {
     head: {
-      title: 'Anthony Fu is Releasing...',
+      title: `${name} is Releasing...`,
       viewport: 'width=device-width,initial-scale=1',
       link: [
         { rel: 'icon', href: '/favicon.png' },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'alternate', type: 'application/rss+xml', title: 'Anthony Fu\'s recent releases', href: '/feed.xml' },
+        { rel: 'alternate', type: 'application/rss+xml', title: `${name}'s recent releases`, href: '/feed.xml' },
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },

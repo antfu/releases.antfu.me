@@ -1,19 +1,20 @@
 import { Octokit } from 'octokit'
 import type { ReleaseInfo } from '../../types'
 
-const LIMIT = 100
+const LIMIT = 200
+const KV_KEY = 'records'
 
 const ignoreRepos = [
   'Ovyerus/shiki', // Not sure why the commit appears from a fork, filter it out temporarily
 ]
 
-export default defineLazyEventHandler(() => {
+export default defineLazyEventHandler(async () => {
   const config = useRuntimeConfig()
   const octokit = new Octokit({
     auth: config.githubToken,
   })
 
-  let infos: ReleaseInfo[] = []
+  let infos: ReleaseInfo[] = await hubKV().get(KV_KEY) || []
 
   async function getDataAtPage(page = 1): Promise<ReleaseInfo[]> {
     const { data } = await octokit.request('GET /users/{username}/events', {
@@ -84,6 +85,8 @@ export default defineLazyEventHandler(() => {
 
     if (infos.length > LIMIT)
       infos.slice(0, LIMIT)
+
+    hubKV().set(KV_KEY, infos)
 
     return infos
   }, {
