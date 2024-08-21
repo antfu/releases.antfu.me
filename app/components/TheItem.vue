@@ -40,7 +40,7 @@ const subImage = computed(() => {
   <div
     flex="~ gap-4 items-center"
     lt-sm="gap-6"
-    :class="timeDiffHours > 14 ? 'mt-8' : ''"
+    :class="timeDiffHours > 11 ? 'mt-10' : ''"
   >
     <a
       :href="`https://github.com/${item.repo}`" target="_blank"

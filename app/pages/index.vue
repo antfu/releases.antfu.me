@@ -62,15 +62,23 @@ const config = useRuntimeConfig()
     </div>
     <div text-center op50>
       <div v-if="data?.lastUpdated" flex="~ gap-1 wrap justify-center">
-        <span op50>Last activity:</span>
+        <span op75>Last activity:</span>
         <time :datetime="new Date(data.lastUpdated).toString()">{{ formatTimeAgo(new Date(data.lastUpdated)) }}</time>
         <span mx2 op50>|</span>
-        <span op50>Last fetched:</span>
+        <span op75>Last fetched:</span>
         <time :datetime="new Date(data.lastFetched).toString()">{{ formatTimeAgo(new Date(data.lastFetched)) }}</time>
       </div>
-      <span op50>
+      <span op75>
         GitHub API is not always realtime, it might take a couple hours to update.
       </span>
+    </div>
+    <div p2>
+      <hr ma w-20 op25>
+    </div>
+    <div text-center op50>
+      <span op75>Site deployed with </span><a href="https://hub.nuxt.com" target="_blank">NuxtHub</a>
+      <br>
+      <a href="https://github.com/atinux/my-pull-requests">Create your own page for contributions</a>
     </div>
   </div>
 </template>
