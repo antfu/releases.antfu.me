@@ -51,9 +51,22 @@ const HighlightedVersion = defineComponent({
       }
     }
 
-    return h('span', ['v', ...parts.map((part, i) => {
-      if (i === highlightedIndex) {
-        return h('span', { class: 'text-green-7 dark:text-green-3 font-bold bg-green:10 px0.5 mx--0.5 rounded' }, part)
+    const mergedParts = [
+      parts.slice(0, highlightedIndex),
+      parts.slice(highlightedIndex).join(''),
+    ]
+
+    const colors = [
+      'text-rose-7 dark:text-rose-3 bg-rose:15',
+      'text-green-7 dark:text-green-3 bg-green:15',
+      'text-purple-7 dark:text-purple-3 bg-purple:15',
+      'text-teal-7 dark:text-teal-3 bg-teal:15',
+    ]
+    const color = colors[Math.round(highlightedIndex / 2)] || colors[3]
+
+    return h('span', ['v', ...mergedParts.map((part, i) => {
+      if (i) {
+        return h('span', { class: `${color} font-bold px0.8 mx--0.8 rounded` }, part)
       }
       return part
     })])
