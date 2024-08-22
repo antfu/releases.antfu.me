@@ -34,6 +34,31 @@ const subImage = computed(() => {
   }
   return ''
 })
+
+const HighlightedVersion = defineComponent({
+  render() {
+    const version = props.item.version
+    const parts = version.split(/(\.)/g)
+
+    let highlightedIndex = -1
+    for (let i = parts.length - 1; i >= 0; i--) {
+      if (parts[i] !== '.') {
+        const num = +parts[i]!
+        if (!Number.isNaN(num) && num > 0) {
+          highlightedIndex = i
+          break
+        }
+      }
+    }
+
+    return h('span', ['v', ...parts.map((part, i) => {
+      if (i === highlightedIndex) {
+        return h('span', { class: 'text-green-7 dark:text-green-3 font-bold bg-green:10 px0.5 mx--0.5 rounded' }, part)
+      }
+      return part
+    })])
+  },
+})
 </script>
 
 <template>
@@ -88,7 +113,7 @@ const subImage = computed(() => {
           font-mono
           :href="`https://github.com/${item.repo}/releases/tag/v${item.version}`" target="_blank"
         >
-          v{{ item.version }}
+          <HighlightedVersion />
         </a>
         <time text-sm op50 :datatime="new Date(item.created_at).toString()">{{ formatTimeAgo(new Date(item.created_at)) }}</time>
       </div>
