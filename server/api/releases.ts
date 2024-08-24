@@ -4,6 +4,15 @@ import type { ReleaseInfo } from '../../types'
 const LIMIT = 200
 const KV_KEY = 'records'
 
+const refs = [
+  'refs/heads/main',
+  'refs/heads/master',
+  'refs/heads/latest',
+  'refs/heads/stable',
+  'refs/heads/release',
+  'refs/heads/dev',
+]
+
 export interface ReturnData {
   infos: ReleaseInfo[]
   lastUpdated: number
@@ -49,6 +58,9 @@ export default defineLazyEventHandler(async () => {
       })
       // For releases, we only care about the push events
       .filter(item => item.type === 'PushEvent' && item.public)
+      // Sometimes GitHub API might return activities from other forks (when syncing PRs)
+      // We filter then out by checking the ref
+      .filter(item => refs.includes((item.payload as any)?.ref))
       // Normalize the the releases. An even can have multiple commits, we flatten them
       .flatMap((item): ReleaseInfo => {
         const payload: any = item.payload || {}
