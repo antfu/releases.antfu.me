@@ -2,20 +2,21 @@ import { Feed } from 'feed'
 import { joinURL } from 'ufo'
 import { logoOverrides } from '~~/shared/constants'
 
-const DOMAIN = 'https://releases.antfu.me'
-
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig()
+  const { name, website } = config.public
+
   const feed = new Feed({
-    title: 'Anthony Fu is Releasing...',
-    description: 'Anthony Fu\'s recent releases',
-    id: DOMAIN,
-    link: DOMAIN,
+    title: `${name} is Releasing...`,
+    description: `${name}'s recent releases`,
+    id: website,
+    link: website,
     language: 'en',
-    image: joinURL(DOMAIN, 'favicon.png'),
-    favicon: joinURL(DOMAIN, 'favicon.png'),
-    copyright: 'CC BY-NC-SA 4.0 2024 © Anthony Fu',
+    image: joinURL(website, 'favicon.png'),
+    favicon: joinURL(website, 'favicon.png'),
+    copyright: `CC BY-NC-SA 4.0 ${(new Date()).getFullYear()} © ${name}`,
     feedLinks: {
-      rss: `${DOMAIN}/rss.xml`,
+      rss: `${website}/rss.xml`,
     },
   })
 

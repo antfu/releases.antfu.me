@@ -2,6 +2,7 @@ import process from 'node:process'
 
 const name = process.env.GITHUB_NAME || 'Anthony Fu'
 const login = process.env.GITHUB_LOGIN || 'antfu'
+const website = process.env.WEBSITE_DOMAIN || 'https://releases.antfu.me'
 
 export default defineNuxtConfig({
   modules: [
@@ -16,6 +17,7 @@ export default defineNuxtConfig({
     public: {
       name,
       login,
+      website,
     },
   },
 
@@ -46,10 +48,10 @@ export default defineNuxtConfig({
         { name: 'description', content: `${name}'s recent releases` },
         { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
         { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222' },
-        { property: 'og:image', content: 'https://releases.antfu.me/og.png' },
+        { property: 'og:image', content: `${website}/og.png` },
         { property: 'og:image:alt', content: `${name} is Releasing...` },
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:image', content: 'https://releases.antfu.me/og.png' },
+        { name: 'twitter:image', content: `${website}/og.png` },
         { name: 'twitter:image:alt', content: `${name} is Releasing...` },
       ],
     },
