@@ -112,6 +112,7 @@ onMounted(async () => {
   /**
    * 0.2 - 0.8
    */
+  // eslint-disable-next-line unicorn/consistent-function-scoping
   const randomMiddle = () => random() * 0.6 + 0.2
 
   start.value = () => {
