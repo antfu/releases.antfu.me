@@ -5,6 +5,7 @@ useDark()
 <template>
   <NuxtPage />
   <ArtPlum />
+  <ScrollToTop />
 </template>
 
 <style>
