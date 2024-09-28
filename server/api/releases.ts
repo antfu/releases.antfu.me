@@ -2,7 +2,7 @@ import { Octokit } from 'octokit'
 import markdownit from 'markdown-it'
 import type { ReleaseInfo } from '../../types'
 
-const md = markdownit()
+const md = markdownit({ html: true })
 
 const LIMIT = 200
 const KV_KEY = 'records'
