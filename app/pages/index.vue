@@ -28,7 +28,7 @@ const list = computed(() => {
     <div flex="~ col gap-4">
       <h1 flex="~ gap-2 col justify-center items-center">
         <a :href="`https://github.com/${config.public.login}`" target="_blank">
-          <img :src="`https://github.com/${config.public.login}.png`" mr1 h-18 w-18 rounded-full shadow>
+          <img :src="`https://github.com/${config.public.login}.png`" :alt="`${config.public.login}`" mr1 h-18 w-18 rounded-full shadow>
         </a>
         <div flex="~ col">
           <div text-3xl>
