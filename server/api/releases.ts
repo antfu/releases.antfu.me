@@ -90,11 +90,16 @@ export default defineLazyEventHandler(async () => {
     return await Promise.all(
       releases.map(async (release) => {
         try {
+          const owner = release.repo.split('/')[0]
+          const repo = release.repo.split('/')[1]
+          if (!owner || !repo)
+            return release
+
           const { data } = await octokit.request(
             'GET /repos/{owner}/{repo}/releases/tags/{tag}',
             {
-              owner: release.repo.split('/')[0],
-              repo: release.repo.split('/')[1],
+              owner,
+              repo,
               tag: `v${release.version}`,
             },
           )
