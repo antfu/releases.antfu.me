@@ -138,7 +138,7 @@ const showReleaseContent = ref(false)
       </div>
     </button>
     <article
-      v-show="showReleaseContent"
+      v-if="showReleaseContent"
       prose
       v-html="item.content"
     />
