@@ -3,6 +3,7 @@ export interface ReleaseInfo {
   type: string
   repo: string
   title: string
+  content: string
   commit: string
   created_at: number
   version: string

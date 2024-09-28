@@ -30,6 +30,7 @@ export default defineEventHandler(async (event) => {
       title: `${item.repo} v${item.version} released`,
       image: logoOverrides[item.repo] || `https://github.com/${item.repo.split('/')[0]}.png`,
       description: `<a href="${item.commit}">${item.title}</a>`,
+      content: item.content,
     })
   }
 

@@ -1,5 +1,8 @@
 import { Octokit } from 'octokit'
+import markdownit from 'markdown-it'
 import type { ReleaseInfo } from '../../types'
+
+const md = markdownit()
 
 const LIMIT = 200
 const KV_KEY = 'records'
@@ -44,7 +47,7 @@ export default defineLazyEventHandler(async () => {
       page,
     })
 
-    return data
+    const releases = data
       .map((i) => {
         // Normalize the date to number
         const created_at = +new Date(i.created_at || 0)
@@ -73,6 +76,7 @@ export default defineLazyEventHandler(async () => {
             repo: item.repo.name,
             isOrg: item.org !== undefined,
             title,
+            content: '',
             sha: commit?.sha || '',
             commit: `https://github.com/${item.repo.name}/commit/${commit?.sha}`,
             created_at: item.created_at,
@@ -82,6 +86,29 @@ export default defineLazyEventHandler(async () => {
         })
       })
       .filter(item => item.title.includes('release') && item.version)
+
+    return await Promise.all(
+      releases.map(async (release) => {
+        try {
+          const { data } = await octokit.request(
+            'GET /repos/{owner}/{repo}/releases/tags/{tag}',
+            {
+              owner: release.repo.split('/')[0],
+              repo: release.repo.split('/')[1],
+              tag: `v${release.version}`,
+            },
+          )
+
+          return {
+            ...release,
+            content: md.render(data.body || ''),
+          }
+        }
+        catch {
+          return release
+        }
+      }),
+    )
   }
 
   return defineCachedEventHandler(async () => {
