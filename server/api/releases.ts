@@ -90,8 +90,7 @@ export default defineLazyEventHandler(async () => {
     return await Promise.all(
       releases.map(async (release) => {
         try {
-          const owner = release.repo.split('/')[0]
-          const repo = release.repo.split('/')[1]
+          const [owner, repo] = release.repo.split('/')
           if (!owner || !repo)
             return release
 
