@@ -13,6 +13,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "markdown-it": "^14.1.0",
     "octokit": "^4.0.2"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "@nuxthub/core": "^0.7.20",
     "@nuxtjs/color-mode": "^3.5.1",
     "@pinia/nuxt": "^0.5.4",
+    "@types/markdown-it": "^14.1.2",
     "@unocss/eslint-config": "^0.63.1",
     "@unocss/nuxt": "^0.63.1",
     "@vueuse/nuxt": "^11.1.0",
