@@ -10,4 +10,6 @@ export const subLogosMatch = [
   [/^vite-/, 'i-logos-vitejs'],
   [/^eslint-/, 'i-logos-eslint'],
   [/^vscode-/, 'i-logos-visual-studio-code'],
+  [/^shiki-/i, 'https://github.com/shikijs.png'],
+  [/^slidev-/, 'https://github.com/slidevjs.png'],
 ] as const
