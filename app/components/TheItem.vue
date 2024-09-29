@@ -97,21 +97,21 @@ const showReleaseContent = ref(false)
           :class="item.isOrg === false && !logoOverrides[props.item.repo] ? 'rounded-full' : 'rounded'"
         >
 
-      <div
-        v-if="subImage"
-        border="~ gray/5" absolute bottom--2 right--2 rounded-full bg-gray:5 bg-white p1 dark:bg-hex-121212
-      >
-        <img
-          v-if="subImage.includes('://')"
-          :src="subImage" ma h-5 w-5
-          alt="Sub logo"
-        >
         <div
-          v-else
-          :class="subImage"
-          ma h-4.5 w-4.5
-        />
-      </div>
+          v-if="subImage"
+          border="~ gray/5" absolute bottom--2 right--2 rounded-full bg-gray:5 bg-white p1 dark:bg-hex-121212
+        >
+          <img
+            v-if="subImage.includes('://')"
+            :src="subImage" ma h-5 w-5
+            alt="Sub logo"
+          >
+          <div
+            v-else
+            :class="subImage"
+            ma h-4.5 w-4.5
+          />
+        </div>
 
       </a>
 
