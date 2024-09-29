@@ -1,6 +1,6 @@
+import { logoOverrides } from '~~/shared/constants'
 import { Feed } from 'feed'
 import { joinURL } from 'ufo'
-import { logoOverrides } from '~~/shared/constants'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()

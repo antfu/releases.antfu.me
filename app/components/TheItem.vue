@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { ReleaseInfo } from '~~/types'
 import { formatTimeAgo } from '@vueuse/core'
 import { logoOverrides, subLogosMatch } from '~~/shared/constants'
-import type { ReleaseInfo } from '~~/types'
 
 const props = defineProps<{
   item: ReleaseInfo

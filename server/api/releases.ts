@@ -1,5 +1,5 @@
-import { Octokit } from 'octokit'
 import type { ReleaseInfo } from '../../types'
+import { Octokit } from 'octokit'
 
 const LIMIT = 200
 const KV_KEY = 'records'
