@@ -1,8 +1,6 @@
-import { Octokit } from 'octokit'
-import markdownit from 'markdown-it'
 import type { ReleaseInfo } from '../../types'
-
-const md = markdownit({ html: true })
+import markdownit from 'markdown-it'
+import { Octokit } from 'octokit'
 
 const LIMIT = 200
 const KV_KEY = 'records'
