@@ -1,7 +1,7 @@
 {
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@11.24.0",
   "scripts": {
     "build": "nuxi build",
     "dev": "nuxi dev",
@@ -21,7 +21,7 @@
     "@iconify-json/logos": "^1.2.13",
     "@iconify-json/ph": "^1.2.2",
     "@iconify-json/twemoji": "^1.2.5",
-    "@netlify/blobs": "^10.7.13",
+    "@netlify/blobs": "^11.0.1",
     "@nuxt/devtools": "^3.4.2",
     "@nuxt/eslint": "^1.17.0",
     "@nuxtjs/color-mode": "^4.0.1",
