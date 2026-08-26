@@ -9,7 +9,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@nuxt/eslint',
-    '@nuxthub/core',
   ],
 
   runtimeConfig: {
@@ -21,8 +20,21 @@ export default defineNuxtConfig({
     },
   },
 
-  hub: {
-    kv: true,
+  nitro: {
+    // Persist release history in Netlify Blobs in production,
+    // and on the local filesystem during development.
+    storage: {
+      kv: {
+        driver: 'netlify-blobs',
+        name: 'kv',
+      },
+    },
+    devStorage: {
+      kv: {
+        driver: 'fs',
+        base: '.data/kv',
+      },
+    },
   },
 
   experimental: {
