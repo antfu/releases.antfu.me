@@ -2,6 +2,11 @@ minimumReleaseAge: false
 shamefullyHoist: true
 strictPeerDependencies: false
 shellEmulator: true
+trustPolicy: no-downgrade
+
+overrides:
+  semver: ^7.5.4
+
 allowBuilds:
   esbuild: true
   unrs-resolver: true

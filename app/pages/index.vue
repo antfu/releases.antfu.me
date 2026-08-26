@@ -64,7 +64,7 @@ const list = computed(() => {
 
     <TheItem
       v-for="item, idx of list"
-      :key="item.id"
+      :key="item.commit"
       :item="item"
       :prev="list[idx - 1]"
     />
